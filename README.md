@@ -1,2 +1,6 @@
-# handy-angular-things
-A collection of handy Angular directives, filters and other tidbits
+# Handy Angular things
+
+A collection of handy Angular directives, filters and other tidbits.
+
+Note that the majority of these will be written in ES6+.
+
