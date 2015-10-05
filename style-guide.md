@@ -30,78 +30,83 @@ _Why?_ Arrow functions are preferred to `angular.bind` because the syntax is mor
 
 ##### Avoid
 
-	class Dashboard {
-		constructor($scope) {
-			$scope.$watch(() => this.waitTimes, this.refresh, true);
-		}
-
-		function refresh() {
-			this.waitTimes;	// does not exist
-		}
+```
+class Dashboard {
+	constructor($scope) {
+		$scope.$watch(() => this.waitTimes, this.refresh, true);
 	}
-	Dashboard.$inject = ['$scope'];
-	
-	angular
-		.module('app')
-		.directive(() => ({
-			scope: {
-				waitTimes: '='
-			},
-			bindToController: true,
-			controller: Dashboard,
-			controllerAs: 'vm'
-		}))
+
+	function refresh() {
+		this.waitTimes;	// does not exist
+	}
+}
+Dashboard.$inject = ['$scope'];
+
+angular
+	.module('app')
+	.directive(() => ({
+		scope: {
+			waitTimes: '='
+		},
+		bindToController: true,
+		controller: Dashboard,
+		controllerAs: 'vm'
+	}))
+```
 
 
 ##### Better
 
-	class Dashboard {
-		constructor($scope) {
-			$scope.$watch(() => this.waitTimes, angular.bind(this, this.refresh), true);
-		}
-
-		function refresh() {
-			this.waitTimes;	// exists
-		}
+```
+class Dashboard {
+	constructor($scope) {
+		$scope.$watch(() => this.waitTimes, angular.bind(this, this.refresh), true);
 	}
-	Dashboard.$inject = ['$scope'];
-	
-	angular
-		.module('app')
-		.directive(() => ({
-			scope: {
-				waitTimes: '='
-			},
-			bindToController: true,
-			controller: Dashboard,
-			controllerAs: 'vm'
-		}))
 
-
-##### Preferred
-
-	class Dashboard {
-		constructor($scope) {
-			$scope.watch(() => this.waitTimes, () => this.refresh(), true);
-		}
-
-		function refresh() {
-			this.waitTimes;	// exists
-		}
+	function refresh() {
+		this.waitTimes;	// exists
 	}
-	Dashboard.$inject = ['$scope'];
-	
-	angular
-		.module('app')
-		.directive(() => ({
-			scope: {
-				waitTimes: '='
-			},
-			bindToController: true,
-			controller: Dashboard,
-			controllerAs: 'vm'
-		}))
+}
+Dashboard.$inject = ['$scope'];
 
+angular
+	.module('app')
+	.directive(() => ({
+		scope: {
+			waitTimes: '='
+		},
+		bindToController: true,
+		controller: Dashboard,
+		controllerAs: 'vm'
+	}))
+```
+
+
+##### Prefer
+
+```
+class Dashboard {
+	constructor($scope) {
+		$scope.watch(() => this.waitTimes, () => this.refresh(), true);
+	}
+
+	function refresh() {
+		this.waitTimes;	// exists
+	}
+}
+Dashboard.$inject = ['$scope'];
+
+angular
+	.module('app')
+	.directive(() => ({
+		scope: {
+			waitTimes: '='
+		},
+		bindToController: true,
+		controller: Dashboard,
+		controllerAs: 'vm'
+	}))
+```
 
 ## Method syntax
 
@@ -117,73 +122,79 @@ _Why?_ Closing over a known value of `this` makes the resulting code easier to r
 
 ##### Avoid
 
-	function Dashboard($scope) {
-		$scope.$watch(() => this.waitTimes, refresh);
+```
+function Dashboard($scope) {
+	$scope.$watch(() => this.waitTimes, refresh);
 
-		function refresh() {
-			this.waitTimes;	// does not exist
-		}
+	function refresh() {
+		this.waitTimes;	// does not exist
 	}
-	Dashboard.$inject = ['$scope'];
-	
-	angular
-		.module('app')
-		.directive(() => ({
-			scope: {
-				waitTimes: '='
-			},
-			bindToController: true,
-			controller: Dashboard,
-			controllerAs: 'vm'
-		}))
+}
+Dashboard.$inject = ['$scope'];
+
+angular
+	.module('app')
+	.directive(() => ({
+		scope: {
+			waitTimes: '='
+		},
+		bindToController: true,
+		controller: Dashboard,
+		controllerAs: 'vm'
+	}))
+```
 
 
 ##### Better
 
-	function Dashboard($scope) {
-		$scope.$watch(() => this.waitTimes, () => refresh());
+```
+function Dashboard($scope) {
+	$scope.$watch(() => this.waitTimes, () => refresh());
 
-		function refresh() {
-			this.waitTimes;	// exists
-		}
+	function refresh() {
+		this.waitTimes;	// exists
 	}
-	Dashboard.$inject = ['$scope'];
-	
-	angular
-		.module('app')
-		.directive(() => ({
-			scope: {
-				waitTimes: '='
-			},
-			bindToController: true,
-			controller: Dashboard,
-			controllerAs: 'vm'
-		}))
+}
+Dashboard.$inject = ['$scope'];
+
+angular
+	.module('app')
+	.directive(() => ({
+		scope: {
+			waitTimes: '='
+		},
+		bindToController: true,
+		controller: Dashboard,
+		controllerAs: 'vm'
+	}))
+```
 
 
-##### Preferred
+##### Prefer
 
-	function Dashboard($scope) {
-		var self = this;
+```
+function Dashboard($scope) {
+	var self = this;
 
-		$scope.$watch(() => self.waitTimes, refresh);
+	$scope.$watch(() => self.waitTimes, refresh);
 
-		function refresh() {
-			self.waitTimes;	// exists
-		}
+	function refresh() {
+		self.waitTimes;	// exists
 	}
-	Dashboard.$inject = ['$scope'];
-	
-	angular
-		.module('app')
-		.directive(() => ({
-			scope: {
-				waitTimes: '='
-			},
-			bindToController: true,
-			controller: Dashboard,
-			controllerAs: 'vm'
-		}))
+}
+Dashboard.$inject = ['$scope'];
+
+angular
+	.module('app')
+	.directive(() => ({
+		scope: {
+			waitTimes: '='
+		},
+		bindToController: true,
+		controller: Dashboard,
+		controllerAs: 'vm'
+	}))
+```
 
 
 ## Scope
@@ -209,49 +220,52 @@ _Why?_ Callbacks for the watch expression can perform calculations and be more c
 
 ##### Avoid
 
-	class Dashboard {
-		constructor($scope) {
-			$scope.$watch('vm.waitTimes', () => {
+```
+class Dashboard {
+	constructor($scope) {
+		$scope.$watch('vm.waitTimes', () => {
+			// ...
+		});
+	}
+}
+Dashboard.$inject = ['$scope'];
+
+angular
+	.module('app')
+	.directive(() => ({
+		scope: {
+			waitTimes: '='
+		},
+		bindToController: true,
+		controller: Dashboard,
+		controllerAs: 'vm'
+	}))
+```
+
+
+##### Prefer
+
+```
+class Dashboard {
+	constructor($scope) {
+		$scope.watch(
+			() => this.waitTimes, 
+			() => {
 				// ...
 			});
-		}
 	}
-	Dashboard.$inject = ['$scope'];
+}
+Dashboard.$inject = ['$scope'];
 
-	angular
-		.module('app')
-		.directive(() => ({
-			scope: {
-				waitTimes: '='
-			},
-			bindToController: true,
-			controller: Dashboard,
-			controllerAs: 'vm'
-		}))
-
-
-##### Recommended
-
-	class Dashboard {
-		constructor($scope) {
-			$scope.watch(
-				() => this.waitTimes, 
-				() => {
-					// ...
-				});
-		}
-	}
-	Dashboard.$inject = ['$scope'];
-
-	angular
-		.module('app')
-		.directive(() => ({
-			scope: {
-				waitTimes: '='
-			},
-			bindToController: true,
-			controller: Dashboard,
-			controllerAs: 'vm'
-		}))
-
+angular
+	.module('app')
+	.directive(() => ({
+		scope: {
+			waitTimes: '='
+		},
+		bindToController: true,
+		controller: Dashboard,
+		controllerAs: 'vm'
+	}))
+```
 
