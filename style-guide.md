@@ -1,8 +1,8 @@
 # Angular style guide
 
-This isn't a comprehensive style guide. I would recommend using [John Papa's style guide](https://github.com/johnpapa/angular-styleguide) as a better starting point. I personally have some different styles than John's, mainly due to using ES6 or Typescript and less experience with the platform.
+This is an early work in progress, it is not a comprehensive style guide. I would recommend using [John Papa's style guide](https://github.com/johnpapa/angular-styleguide) as a better starting point. I personally have some different styles than John's, mainly due to using ES6 or Typescript classes.
 
-Sometimes I show method syntax or class syntax, sometimes both. Class syntax is preferred but sometimes method syntax has less friction and can be easier to control `this` (by closing over `self`). I don't see a problem with mixing both styles in the one project.
+Sometimes I show method syntax or class syntax, sometimes both. Class syntax is preferred but sometimes method syntax has less friction and is easier to control `this` (by closing over `self`). I don't see a problem with mixing both styles in the one project.
 
 
 ## Table of contents
